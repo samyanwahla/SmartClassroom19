@@ -47,6 +47,43 @@ class IPfunctions:
                       sub_face1 = img[y:y+h, x:x+w]
             path1= 'C:\pythoncheck\Lips\Lips{}.jpg'
             cv2.imwrite(path1.format(bb),sub_face1)
+
+    def Lefteyedetect(path):
+        detect1 = cv2.CascadeClassifier("C:\pythoncheck\Lib\site-packages\cv2\data\haarcascade_eye.xml")
+        for bb,timg in enumerate (glob.glob(path)):
+            print(bb,timg)
+            img = cv2.imread(timg)
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            lefteye = detect1.detectMultiScale(gray,1.20,5)
+            path3 = 'C:\pythoncheck\RightEye\RightEye{}.jpg'
+            
+            for(x,y,w,h) in lefteye:
+                #print(x,y)
+                #print(x+w,y+h)
+                if((x> 50 and x+w< 220)and(y >64 and y+h<235)):
+                    if((x> 50 and x+w< 220)and(y < 150 and y+h<235)):
+                        if((x> 50 and x+w<130)and(y<150 and y+h<235)):
+                            cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+                            sub_face = img[y:y+h, x:x+w]
+                            cv2.imwrite(path3.format(bb),sub_face)
+                            break
+
+    def Righteyedetect(path):
+         detect4 = cv2.CascadeClassifier("C:\pythoncheck\Lib\site-packages\cv2\data\haarcascade_lefteye_2splits.xml")
+         for bb,timg in enumerate (glob.glob(path)):
+            print(bb,timg)
+            img = cv2.imread(timg)
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            righteye = detect4.detectMultiScale(gray,1.20,5)
+            path2= 'C:\pythoncheck\LeftEye\LeftEye{}.jpg'
+            for(x,y,w,h) in righteye:
+                if((x> 50 and x+w< 220)and(y >64 and y+h<235)):
+                    if((x> 50 and x+w< 220)and(y < 150 and y+h<235)):
+                        if((x>130 and x+w<220)and(y<150 and y+h<235)):
+                            cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,255),2)
+                            subface1=img[y:y+h, x:x+w]
+                            cv2.imwrite(path2.format(bb),subface1)
+                            break
     
     def BeizerCurvePoints(path):
          for bb,timg in enumerate (glob.glob(path)):

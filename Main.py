@@ -12,10 +12,12 @@ print(folder_selected)
 path=str(folder_selected)+'/*'
 print(path)
 
-##FD.facedetect(path)
-##FD.Lipdetect(path)
-FD.Binarization(path)
-FD.BeizerCurvePoints(path)
+FD.facedetect(path)
+FD.Lipdetect(path)
+FD.Lefteyedetect(path)
+FD.Righteyedetect(path)
+#FD.Binarization(path)
+#FD.BeizerCurvePoints(path)
 
 
 
