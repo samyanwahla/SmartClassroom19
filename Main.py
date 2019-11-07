@@ -13,3 +13,4 @@ path=str(folder_selected)+'/*.tiff'
 print(path)
 
 FD.facedetect(path)
+FD.Lipdetect(path)
