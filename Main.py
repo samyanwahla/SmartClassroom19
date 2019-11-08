@@ -4,6 +4,7 @@ from tkinter.filedialog import askdirectory
 import os
 import time
 from CombineIP import IPfunctions as FD
+from bezierclasss import beziercurve as bz
 
 root = Tk()
 root.withdraw()
