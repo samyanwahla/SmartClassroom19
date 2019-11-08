@@ -103,7 +103,7 @@ class IPfunctions:
              top = tuple(c[c[:, :, 1].argmin()][0])
              bottom = tuple(c[c[:, :, 1].argmax()][0])
 
-             cv2.drawContours(img, [c], -1, (36, 255, 12), 2)
+             
              cv2.circle(img, left, 8, (0, 50, 255), -1)
              cv2.circle(img, right, 8, (0, 255, 255), -1)
              cv2.circle(img, top, 8, (255, 50, 0), -1)
