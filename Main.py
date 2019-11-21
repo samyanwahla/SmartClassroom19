@@ -12,11 +12,11 @@ folder_selected = askdirectory()
 print(folder_selected)
 path=str(folder_selected)+'/*'
 print(path)
-
-FD.facedetect(path)
-FD.Lipdetect(path)
-FD.Lefteyedetect(path)
-FD.Righteyedetect(path)
+FD.makefolders()
+#FD.facedetect(path)
+FD.Lipdetect(FD,path)
+FD.Lefteyedetect(FD,path)
+FD.Righteyedetect(FD,path)
 #FD.Binarization(path)
 #FD.BeizerCurvePoints(path)
 
