@@ -7,15 +7,16 @@ from PIL import Image, ImageDraw
 from tkinter.filedialog import askdirectory
 import csv
 
-class beziercurve(tk.Tk):
-     def __init__(self, *args, **kwargs):
+class beziercurve:
+     def init():
 ##        tk.Tk.__init__(self, *args, **kwargs)
 ##
 ##        self.canvas = tk.Canvas(width=400, height=400)
 ##        self.canvas.pack(fill="both", expand=True)
 ##        img = cv2.imread('Drawpoint\Lipa\Lips185.jpg')
         data=[['rightwidth','rightheight','rightangle']]
-        path='Drawpoint/csv/righteye.csv'
+        path='Drawpoint/csv/lipscsv.csv'
+        counter=0
         with open(path) as csvfile:
              readCSV = csv.reader(csvfile, delimiter=',')
              for row in readCSV:
@@ -28,7 +29,7 @@ class beziercurve(tk.Tk):
                   top = row[1]
                   right = row[2]
                   bottom = row[3]
- 
+                  img=row[4]
                   comma=','
                   bracket=')'
                   if (left[2]==str(comma) and left[5]==str(bracket)):
@@ -156,14 +157,14 @@ class beziercurve(tk.Tk):
                 
                   
                   u=0
-                  self._bezier_curve(p0,p1,p2,p3,u)
-                  width=self._distance(p0,p2)
+                  beziercurve._bezier_curve(p0,p1,p2,p3,u,img,counter)
+                  width=beziercurve._distance(p0,p2)
                   print(width)
-                  height=self._distance(p1,p3)
+                  height=beziercurve._distance(p1,p3)
                   print(height)
-                  angle=self._angle(p0,p1,p2,width,height)
+                  angle=beziercurve._angle(p0,p1,p2,width,height)
                   dat=[width,height,angle]
-                  
+                  counter+=1
                   data.append(dat)             
                      
 
@@ -182,7 +183,7 @@ class beziercurve(tk.Tk):
         
 
 
-     def _angle(self,p0,p1,p2,width,height):
+     def _angle(p0,p1,p2,width,height):
 ##          a*(p0[0]**2)+b*(p0[0])+c=p0[1]
 ##          a*(p1[0]**2)+b*(p1[0])+c=p1[1]
 ##          a*(p2[0]**2)+b*(p2[0])+c=p2[1]
@@ -274,64 +275,67 @@ class beziercurve(tk.Tk):
           
 
 
-     def _distance(self, p0, p2):
+     def _distance( p0, p2):
         '''calculate distance between 2 points'''
         return sqrt((p0[0] - p2[0])**2 + (p0[1] - p2[1])**2)   
 
 ##     def _bezier_curve(self,p0,p1,p2,p3,u):
-     def _bezier_curve(self,p0,p1,p2,p3,u):
+     def _bezier_curve(p0,p1,p2,p3,u,img,counter):
         ##equations
 
-        counter=0
+##        for bb,timg in enumerate (glob.glob(path)):
 
-        xvalues=[]
-        yvalues=[]
-        x1values=[]
-        y1values=[]
+             xvalues=[]
+             yvalues=[]
+             x1values=[]
+             y1values=[]
 
-        img = cv2.imread('Drawpoint\Lipa\Lips33.jpg')
-             
-        while u<=1:
-
-
-             x=((1-u)**2)*p0[0]+p1[0]*2*u*(1-u)+p2[0]*(u**2)
-             y=((1-u)**2)*p0[1]+p1[1]*2*u*(1-u)+p2[1]*(u**2)
-             
-                 ##botton
-             x1=((1-u)**2)*p0[0]+p3[0]*2*u*(1-u)+p2[0]*(u**2)
-             y1=((1-u)**2)*p0[1]+p3[1]*2*u*(1-u)+p2[1]*(u**2)
-             xvalues.append(x)
-             yvalues.append(y)
-             x1values.append(x1)
-             y1values.append(y1)
-             angle=p0
-             u+=0.1
-             
-        i=0
-        j=1
-        length=len(xvalues)
-        while (xvalues):
-             if i<=(len(xvalues)-2) and j<len(yvalues):
-                  image=cv2.line(img,(round(xvalues[i]),round(yvalues[i])),(round(xvalues[j]),round(yvalues[j])),(0, 0, 255),1)
+             img = cv2.imread(img)
                   
-                  image1=cv2.line(image,(round(x1values[i]),round(y1values[i])),(round(x1values[j]),round(y1values[j])),(0, 0, 255),1)
-                                    
-                  
-                  i+=1
-                  j+=1
-                  length=length-1
-             else:
-                  break
+             while u<=1:
 
 
-        
+                  x=((1-u)**2)*p0[0]+p1[0]*2*u*(1-u)+p2[0]*(u**2)
+                  y=((1-u)**2)*p0[1]+p1[1]*2*u*(1-u)+p2[1]*(u**2)
                   
-  
-        cv2.imshow('new',image1)
-        cv2.imwrite('beziereye/Image33.jpg', image1)
-        
+                      ##botton
+                  x1=((1-u)**2)*p0[0]+p3[0]*2*u*(1-u)+p2[0]*(u**2)
+                  y1=((1-u)**2)*p0[1]+p3[1]*2*u*(1-u)+p2[1]*(u**2)
+                  xvalues.append(x)
+                  yvalues.append(y)
+                  x1values.append(x1)
+                  y1values.append(y1)
+                  angle=p0
+                  u+=0.1
+                  
+             i=0
+             j=1
+             length=len(xvalues)
+             while (xvalues):
+                  if i<=(len(xvalues)-2) and j<len(yvalues):
+                       image=cv2.line(img,(round(xvalues[i]),round(yvalues[i])),(round(xvalues[j]),round(yvalues[j])),(0, 0, 255),1)
+                       
+                       image1=cv2.line(image,(round(x1values[i]),round(y1values[i])),(round(x1values[j]),round(y1values[j])),(0, 0, 255),1)
+                                         
+                       
+                       i+=1
+                       j+=1
+                       length=length-1
+                  else:
+                       break
+
 
              
+                       
+       
+##             cv2.imshow('new',image1)
+##             cv2.imwrite('beziereye/Image33.jpg', image1)
+             
+             path = 'beziereye/'
+             cv2.imwrite("beziereye/"+str(counter)+".jpg",image1)
+           
+             cv2.imshow("Detect Multi Images",image1)
+                  
 
                  
       
@@ -340,7 +344,8 @@ class beziercurve(tk.Tk):
 
 
 if __name__ == "__main__":
-    app = beziercurve()
+     app=beziercurve
+     app.init()
     
 
         

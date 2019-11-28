@@ -10,7 +10,7 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 
 
 class DT:
-    def __init__(self, traininp ,testinp , trainout, testout ):
+    def __init__(self, traininp ,testinp , trainout ,testout):
         
         self.traininp = traininp
         self.testinp = testinp
@@ -27,9 +27,10 @@ class DT:
     def test(self):        
                
         predictions = self.dt.predict(self.testinp)
-        print(confusion_matrix(self.testout,predictions))
-        print(classification_report(self.testout,predictions))
-        print(accuracy_score(self.testout,predictions))
+        print(predictions)
+        print(confusion_matrix(self.testinp,predictions))
+        print(classification_report(self.testinp,predictions))
+        print(accuracy_score(self.testinp,predictions))
         
 
 
@@ -39,6 +40,7 @@ class DT:
 def main():
         
         dataset = pd.read_csv("weather.csv")
+        dataset1 = pd.read_csv("Book1.csv")
         print(dataset.shape)
         print(dataset.head())
 
@@ -46,9 +48,27 @@ def main():
         print(X)
         y = dataset['output']
         print(y)
+
+        X_train = X
+        y_train = y
+##
+        X1 = dataset1.drop('output', axis=1)
+        print(X1)
+        X_test = X1
+
+        y1 = dataset1['output']
+        y_test = y1
         
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
+##        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
+        print(X_train.shape)
+        print(X_test.shape)
+        print(y_train.shape)
+        print(y_test.shape)
+
+##        
+##        print(y_test.shape)
+        
 
         
         n=DT( X_train, X_test, y_train, y_test)
